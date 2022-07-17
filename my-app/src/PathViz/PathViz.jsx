@@ -1,6 +1,6 @@
 import React , {Component} from  'react';
 import Node from './Node/Node.jsx';
-
+import './PathViz.css';
 
 var gridSize = {
     colomns: 40,
@@ -105,7 +105,7 @@ class PathViz extends Component {
        
 
         return (
-            <div onMouseDown={this.toggleMouse.bind(this)} onMouseUp={this.toggleMouse.bind(this)} >
+            <div onMouseDown={this.toggleMouse.bind(this)} onMouseUp={this.toggleMouse.bind(this)}  className="grid" >
                {this.CreateGrid()}
            {node.map((row,rowidx) => {
             return <div key={rowidx}> {row.map((node,nodeidx) => <Node key={nodeidx} mouse = {mouse} upAfterDown = {upAfterDown}></Node>)}

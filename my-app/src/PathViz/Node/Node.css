@@ -1,13 +1,13 @@
 #node {
-    width: 25px;
-    height: 25px;
-    outline: 1px solid rgb(10, 10, 10);
-    display: inline-block;
-  }
+  width: 25px;
+  height: 25px;
+  outline: 1px solid rgb(175, 216, 248);
+  display: inline-block;
+}
 
   .on{
-    background-color: red;
+    background-color: rgb(53, 112, 151);
   }
   .off{
-    background-color: blue;
+    background-color: white;
   }
