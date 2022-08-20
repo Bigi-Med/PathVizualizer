@@ -1,13 +1,25 @@
-#node {
+.node {
   width: 25px;
   height: 25px;
   outline: 1px solid rgb(175, 216, 248);
   display: inline-block;
 }
 
-  .on{
-    background-color: rgb(53, 112, 151);
+.on{
+  background-color: rgb(53, 112, 151);
+}
+.off{
+  background-color: white;
+}
+.start{
+  background-color: green;
+}
+.finish{
+  background-color: red;
+}
+  .node-in-search{
+    background-color: blue;
   }
-  .off{
-    background-color: white;
+  .node-in-path{
+    background-color: yellow;
   }

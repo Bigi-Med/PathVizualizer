@@ -14,6 +14,8 @@ export default class Node extends Component
             mouseUp: true,
             isHover : false,
             isVisited: false,
+            isStart: false,
+            isFinish: false,
         }
     }
 
@@ -63,9 +65,18 @@ export default class Node extends Component
          else{
             nameClass = "off";
          }
+
+         if(this.props.start === "yes")
+         {
+            nameClass = "start"
+         }
+         else if(this.props.end === "yes")
+         {
+            nameClass = "finish"
+         }
          
         return (
-            <div className = {nameClass} id = "node" onMouseLeave={()=>this.toggleLeave()} onMouseEnter = {()=>this.toggleEnter()}></div>
+            <div className = {`node ${nameClass}`} id = {`node-${this.props.row}-${this.props.col}`} onMouseLeave={()=>this.toggleLeave()} onMouseEnter = {()=>this.toggleEnter()}></div>
         );
     }
 }

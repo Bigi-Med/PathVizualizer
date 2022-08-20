@@ -1,9 +1,10 @@
 import React , {Component} from  'react';
 import Node from './Node/Node.jsx';
 import './PathViz.css';
+import {dijkstra} from './algos/djikstra'
 
-var gridSize = {
-    colomns: 40,
+export var gridSize = {
+    colomns: 15,
     row: 15
 };
 
@@ -20,10 +21,11 @@ class PathViz extends Component {
             trackDown: false,
             trackUp : false,
             mouseUpafterDown:false,
+            nodesInPath : [],
         };
     }
 
-    CreateGrid () {
+    componentDidMount() {
         const nodes = [];
 
         for( let rows = 0; rows <gridSize.row; rows++)
@@ -38,7 +40,6 @@ class PathViz extends Component {
         // console.log(node);
         if(!this.state.alreadySet)
         {
-            console.log("in cond");
             this.setState({
                 node: nodes,
                 alreadySet : true,
@@ -96,6 +97,73 @@ class PathViz extends Component {
             }
         }
     }
+
+    launchDijikstra()
+    {
+
+        let currentNode ={
+            x : 3,
+            y : 2,
+        }
+
+        let endNode={
+            x : 13,
+            y : 12,
+        }
+
+        const {node} = this.state
+        const returnParam = dijkstra(currentNode, endNode ,node);
+
+         this.animateSearch(returnParam);
+        
+        
+    }
+    
+     animateSearch(returnParam)
+    {
+        console.log(returnParam.visitedNodes);
+        returnParam.visitedNodes.pop();
+        returnParam.visitedNodes.pop();
+        console.log(returnParam.visitedNodes);
+
+        returnParam.path.shift();
+        for(let i = 0; i <returnParam.visitedNodes.length; i++)
+        {   
+            setTimeout(()=>
+            {
+                const node = returnParam.visitedNodes[i];
+                
+                document.getElementById(`node-${node[0]}-${node[1]}`).className= 'node node-in-search';
+            },9*i)
+
+            if(i === returnParam.visitedNodes.length-1)
+            {
+                setTimeout(()=>{
+                    this.animatePath(returnParam.path)},10*i
+
+                )
+                
+                
+            }
+        }  
+        
+        
+    }
+
+    animatePath(path)
+    {
+        for(let i = 0; i <path.length; i++)
+        {
+            setTimeout(()=>
+            {
+                const node = path[i];
+        
+                document.getElementById(`node-${node[0]}-${node[1]}`).className= 'node node-in-path';
+            },50*i)
+        }   
+
+    }
+
     
     render()
     {
@@ -105,13 +173,16 @@ class PathViz extends Component {
        
 
         return (
+            <>
+            <button onClick={() => this.launchDijikstra()}>Dijikstra</button>
             <div onMouseDown={this.toggleMouse.bind(this)} onMouseUp={this.toggleMouse.bind(this)}  className="grid" >
-               {this.CreateGrid()}
            {node.map((row,rowidx) => {
-            return <div key={rowidx}> {row.map((node,nodeidx) => <Node key={nodeidx} mouse = {mouse} upAfterDown = {upAfterDown}></Node>)}
+            return <div key={rowidx}> {row.map((node,nodeidx) => <Node key={nodeidx} mouse = {mouse} upAfterDown = {upAfterDown} start={rowidx===3&&nodeidx===2 ? "yes" : "no"} end={rowidx===13&nodeidx===12 ? "yes" : "no"}
+            row={rowidx} col={nodeidx} ></Node>)} 
             </div>
            })}
            </div>
+           </>
         );
     }
 }
